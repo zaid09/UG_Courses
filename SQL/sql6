@@ -1,0 +1,71 @@
+1.select Onum,Cname from Orders o, Customers c where c.Cnum=o.Cnum order by Onum;
++------+----------+
+| Onum | Cname    |
++------+----------+
+| 3001 | Cisneros |
+| 3002 | Pereira  |
+| 3003 | Hoffman  |
+| 3005 | Liu      |
+| 3006 | Cisneros |
+| 3007 | Grass    |
+| 3008 | Clemens  |
+| 3009 | Giovanni |
+| 3010 | Grass    |
+| 3011 | Clemens  |
++------+----------+
+
+2.select Sname,Cname,Onum from Orders o,Customers c,SalesPeople s where o.Snum=c.Snum and o.Snum=s.Snum order by Onum;
++---------+----------+------+
+| Sname   | Cname    | Onum |
++---------+----------+------+
+| Rifkin  | Cisneros | 3001 |
+| Motika  | Pereira  | 3002 |
+| Peel    | Clemens  | 3003 |
+| Peel    | Hoffman  | 3003 |
+| Serres  | Liu      | 3005 |
+| Serres  | Grass    | 3005 |
+| Rifkin  | Cisneros | 3006 |
+| Serres  | Liu      | 3007 |
+| Serres  | Grass    | 3007 |
+| Peel    | Clemens  | 3008 |
+| Peel    | Hoffman  | 3008 |
+| Axelrod | Giovanni | 3009 |
+| Serres  | Grass    | 3010 |
+| Serres  | Liu      | 3010 |
+| Peel    | Clemens  | 3011 |
+| Peel    | Hoffman  | 3011 |
++---------+----------+------+
+
+3.select Cname,s.Snum,comm*100 "Rate of Comm" from Customers c,SalesPeople s where c.Snum=s.Snum and comm>.12;
++----------+------+--------------+
+| Cname    | Snum | Rate of Comm |
++----------+------+--------------+
+| Liu      | 1002 |        13.00 |
+| Grass    | 1002 |        13.00 |
+| Cisneros | 1007 |        15.00 |
++----------+------+--------------+
+
+3.select Cname,Snum,Comm*100 "Rate of Comm" from Customers join SalesPeople using(Snum) where Comm>.12;
++----------+------+--------------+
+| Cname    | Snum | Rate of Comm |
++----------+------+--------------+
+| Liu      | 1002 |        13.00 |
+| Grass    | 1002 |        13.00 |
+| Cisneros | 1007 |        15.00 |
++----------+------+--------------+
+
+4.select Amt,Comm,Amt+(Amt*Comm) "Total Amount" from SalesPeople join Customers using(Snum) join Orders using(Snum) where Rating>100;
++---------+------+--------------+
+| Amt     | Comm | Total Amount |
++---------+------+--------------+
+| 5160.45 | 0.13 |      5831.31 |
+|   75.75 | 0.13 |        85.60 |
+| 1309.95 | 0.13 |      1480.24 |
+| 5160.45 | 0.13 |      5831.31 |
+|   75.75 | 0.13 |        85.60 |
+| 1309.95 | 0.13 |      1480.24 |
+| 1713.23 | 0.10 |      1884.55 |
+|   18.69 | 0.15 |        21.49 |
+| 1098.16 | 0.15 |      1262.88 |
++---------+------+--------------+
+
