@@ -1,0 +1,55 @@
+1.SELECT count(Onum) total_order FROM Orders WHERE Odate LIKE '%-03';
++-------------+
+| total_order |
++-------------+
+|           5 |
++-------------+
+
+2. select count(DISTINCT City) Non_null_city from Customers where City IS NOT NULL;
++---------------+
+| Non_null_city |
++---------------+
+|             4 |
++---------------+
+
+3.select min(Amt) Smallest_Order, Cnum from Orders group by Cnum;
++----------------+------+
+| Smallest_Order | Cnum |
++----------------+------+
+|         767.19 | 2001 |
+|        1713.23 | 2002 |
+|        5160.45 | 2003 |
+|          75.75 | 2004 |
+|        4723.00 | 2006 |
+|        1900.10 | 2007 |
+|          18.69 | 2008 |
++----------------+------+
+
+4.select *from Customers where Cname like 'G%' order by Cname;
++------+----------+--------+--------+------+
+| Cnum | Cname    | City   | Rating | Snum |
++------+----------+--------+--------+------+
+| 2002 | Giovanni | Rome   |    200 | 1003 |
+| 2004 | Grass    | Berlin |    300 | 1002 |
++------+----------+--------+--------+------+
+
+5.select City, max(Rating) Highest_Rating from Customers group by City;
++----------+----------------+
+| City     | Highest_Rating |
++----------+----------------+
+| Berlin   |            300 |
+| London   |            100 |
+| Rome     |            200 |
+| San Jose |            300 |
++----------+----------------+
+
+6.select Odate,count(Onum) Total_Orders from Orders group by Odate order by count(Onum);
++------------+--------------+
+| Odate      | Total_Orders |
++------------+--------------+
+| 1990-10-05 |            1 |
+| 1990-10-06 |            2 |
+| 1990-10-04 |            2 |
+| 1990-10-03 |            5 |
++------------+--------------+
+
