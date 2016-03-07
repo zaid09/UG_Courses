@@ -1,0 +1,39 @@
+1.select m.Sname,n.Sname,m.City from SalesPeople m,SalesPeople n where m.City=n.City and m.Sname<n.Sname;
++--------+-------+--------+
+| Sname  | Sname | City   |
++--------+-------+--------+
+| Motika | Peel  | London |
++--------+-------+--------+
+
+2.select Cname,city from Customers where Rating=(select Rating from Customers where Cname='Hoffman');
++---------+--------+
+| Cname   | city   |
++---------+--------+
+| Hoffman | London |
+| Clemens | London |
+| Pereira | Rome   |
++---------+--------+
+
+3. select Onum "Orders",Cnum from Orders where Cnum=(select Cnum from Customers where Cname='Cisneros');
++--------+------+
+| Orders | Cnum |
++--------+------+
+|   3001 | 2008 |
+|   3006 | 2008 |
++--------+------+
+
+4.select Cname,Rating from Customers where Cnum in (select Cnum from Orders where Amt>(select avg(Amt) from Orders));
++---------+--------+
+| Cname   | Rating |
++---------+--------+
+| Liu     |    200 |
+| Clemens |    100 |
++---------+--------+
+
+5. select Snum, sum(Amt) from Orders group by Snum having sum(Amt)>(select max(Amt) from Orders);
++------+----------+
+| Snum | sum(Amt) |
++------+----------+
+| 1001 | 15382.07 |
++------+----------+
+
