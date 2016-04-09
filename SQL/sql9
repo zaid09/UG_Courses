@@ -1,0 +1,124 @@
+1.select Cname,City,'High Rating' Rating from Customers where Rating>=200 union select Cname,City,'Low Rating' Rating from Customers where Rating < 200;+----------+----------+-------------+
+| Cname    | City     | Rating      |
++----------+----------+-------------+
+| Giovanni | Rome     | High Rating |
+| Liu      | San Jose | High Rating |
+| Grass    | Berlin   | High Rating |
+| Cisneros | San Jose | High Rating |
+| Hoffman  | London   | Low Rating  |
+| Clemens  | London   | Low Rating  |
+| Pereira  | Rome     | Low Rating  |
++----------+----------+-------------+
+
+2. select Sname,Snum,Cname from SalesPeople JOIN Customers using(Snum) where Snum in (select Snum from Customers group by Snum having count(Snum>1)) order by Sname,Cname;
++---------+------+----------+
+| Sname   | Snum | Cname    |
++---------+------+----------+
+| Axelrod | 1003 | Giovanni |
+| Motika  | 1004 | Pereira  |
+| Peel    | 1001 | Clemens  |
+| Peel    | 1001 | Hoffman  |
+| Rifkin  | 1007 | Cisneros |
+| Serres  | 1002 | Grass    |
+| Serres  | 1002 | Liu      |
++---------+------+----------+
+
+3. select Snum Numbers from SalesPeople where City='San Jose' UNION select Cnum from Customers where City='San Jose' UNION select Onum from Orders where Odate='1990-10-03';
++---------+
+| Numbers |
++---------+
+|    1002 |
+|    2003 |
+|    2008 |
+|    3001 |
+|    3002 |
+|    3003 |
+|    3005 |
+|    3006 |
++---------+
+
+4.delete from Orders where Cnum in(select Cnum from Customers where Cname="Clemens");
++------+---------+------------+------+------+
+| Onum | Amt     | Odate      | Cnum | Snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1990-10-03 | 2008 | 1007 |
+| 3002 | 1900.10 | 1990-10-03 | 2007 | 1004 |
+| 3003 |  767.19 | 1990-10-03 | 2001 | 1001 |
+| 3005 | 5160.45 | 1990-10-03 | 2003 | 1002 |
+| 3006 | 1098.16 | 1990-10-03 | 2008 | 1007 |
+| 3007 |   75.75 | 1990-10-04 | 2004 | 1002 |
+| 3009 | 1713.23 | 1990-10-04 | 2002 | 1003 |
+| 3010 | 1309.95 | 1990-10-06 | 2004 | 1002 |
++------+---------+------------+------+------+
+
+
+5.update Customers set Rating=Rating+100 where City="Rome";
+select *from Customers;
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    300 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2007 | Pereira  | Rome     |    200 | 1004 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
++------+----------+----------+--------+------+
+
+
+6. create table Multicust as select *from SalesPeople where Snum in (select Snum fro Customers group by Snum having count(Snum)>1);
+
+select *from Multicust;
++------+--------+----------+------+
+| Snum | Sname  | City     | Comm |
++------+--------+----------+------+
+| 1001 | Peel   | London   | 0.12 |
+| 1002 | Serres | San Jose | 0.13 |
++------+--------+----------+------+
+
+7.update SalesPeople set Comm = Comm*1.20 where Snum IN(select Snum from Orders where Amt>3000);
+select *from SalesPeople;
++------+---------+-----------+------+
+| Snum | Sname   | City      | Comm |
++------+---------+-----------+------+
+| 1001 | Peel    | London    | 0.14 |
+| 1002 | Serres  | San Jose  | 0.16 |
+| 1003 | Axelrod | New York  | 0.10 |
+| 1004 | Motika  | London    | 0.11 |
+| 1007 | Rifkin  | Barcelona | 0.15 |
++------+---------+-----------+------+
+
+8.insert into Customers values(2009,'Bruce','Gotham',500,1007); 
+ select *from Customers;
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
+| 2009 | Bruce    | Gotham   |    500 | 1007 |
++------+----------+----------+--------+------+
+
+delete from Customers where Cnum NOT IN(select distinct Cnum from Orders);
+select *from Customers;
++------+----------+----------+--------+------+
+| Cnum | Cname    | City     | Rating | Snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | Liu      | San Jose |    200 | 1002 |
+| 2004 | Grass    | Berlin   |    300 | 1002 |
+| 2006 | Clemens  | London   |    100 | 1001 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
+| 2008 | Cisneros | San Jose |    300 | 1007 |
++------+----------+----------+--------+------+
+
+
+
+
+
