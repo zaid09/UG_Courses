@@ -1,0 +1,7 @@
+1.create index d_order ON Orders(Odate);
+
+2.ALTER TABLE Orders MODIFY Onum CONSTRAINT o_pk PRIMARY KEY;
+
+3.create index I_DATE on Orders(Odate);
+
+4.ALTER TABLE Customers MODIFY COLUMN Rating PRIMARY KEY;
