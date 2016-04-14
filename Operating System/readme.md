@@ -54,3 +54,15 @@ scheduling.
 4.To demonstrate communication between process using shared memory.
 
 5.To synchronize producer and consumer processes using semaphore.
+
+		MEMORY MANAGEMENT
+1.To allocate memory requirements for processes using first fit allocation.
+
+2.To allocate memory requirements for processes using best fit allocation.
+
+3.To implement demand paging for a reference string using FIFO method.
+
+4.To implement demand paging for a reference string using LRU method.
+
+		FILE ALLOCATION
+1.To implement file allocation on free disk space in a contiguous manner.
