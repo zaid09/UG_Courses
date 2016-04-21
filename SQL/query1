@@ -1,0 +1,32 @@
+1.select *from Customers where Rating >= ANY (select Rating from Customers where Snum in(select Snum from SalesPeople where Sname='Serres'));
+
+2.select Snum,Sname from SalesPeople where Snum = any(select Snum from Customers where SalesPeople.City!=Customers.City and SalesPeople.Snum=Customers.Snum);
+
+3.select *from Orders where Amt>any(select Amt from Orders where Cnum in(select Cnum from Customers where City='London'));
+
+4.select *from Orders where Amt>(select min(Amt) from Customers NATURAL JOIN Orders where City='London');
+
+5.select Cname,City,'High Rating' Rating from Customers where Rating>=200 union select Cname,City,'Low Rating' Rating from Customers where Rating < 200;
+
+6.select Sname,Snum,Cname from SalesPeople JOIN Customers using(Snum) where Snum in (select Snum from Customers group by Snum having count(Snum>1)) order by Sname,Cname;
+
+7.select Snum Numbers from SalesPeople where City='San Jose' UNION (select Cnum from Customers where City='San Jose' UNION ALL select Onum from Orders where Odate='1990-10-03');
+
+8.delete from Orders where Cnum in(select Cnum from Customers where Cname="Clemens");
+
+9.update Customers set Rating=Rating+100 where City="Rome";
+
+10.create table Multicust as select *from SalesPeople where Snum in (select Snum from Customers group by Snum having count(Snum)>1);
+
+11.update SalesPeople set Comm = Comm*1.20 where Snum IN(select Snum from Orders where Amt>3000);
+
+12.delete from Customers where Cnum NOT IN(select distinct Cnum from Orders);
+
+13.create index d_order ON Orders(Odate);
+select *from Orders USE Index(d_orders) where Odate="1990-10-05";
+
+14.ALTER TABLE Orders MODIFY Onum CONSTRAINT o_pk PRIMARY KEY;
+
+15.create index I_DATE on Orders(Odate);
+
+16.ALTER TABLE Customers MODIFY COLUMN Rating PRIMARY KEY;
