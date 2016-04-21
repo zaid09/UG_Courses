@@ -1,0 +1,43 @@
+1.select *from Customers where Snum in(Select Snum from SalesPeople where Sname="Peel" or Sname="Motika");
+
+2.select *from Customers where Cname >= 'A%' and Cname <= 'H%';
+
+3.select *from Orders where Amt is not NULL or Amt != 0;
+
+4.SELECT count(Onum) total_order FROM Orders WHERE Odate LIKE '%-03';
+
+5.select count(DISTINCT City) Non_null_city from Customers where City IS NOT NULL;
+
+6.select min(Amt) Smallest_Order, Cnum from Orders group by Cnum;
+
+7.select *from Customers where Cname like 'G%' order by Cname limit 1;
+
+8.select City, max(Rating) Highest_Rating from Customers group by City;
+
+9.select Odate,count(Onum) Total_Orders from Orders group by Odate order by count(Onum);
+
+10.select Onum,Snum,Amt,(Amt*12)/100 Commision from Orders;
+
+11.select concat('For the city:',City,' the highest rating is: ',max(Rating)) as Details from Customers group by City;
+
+12.select Rating,Cname,Cnum from Customers order by Rating desc;
+
+13.select count(Onum) "Total Orders",Odate from Orders group by Odate order by count(Onum) desc;
+
+14.select Onum,Cname from Orders o, Customers c where c.Cnum=o.Cnum order by Onum;
+
+15.select Sname,Cname,Onum from Orders o,Customers c,SalesPeople s where o.Snum=c.Snum and o.Snum=s.Snum order by Onum;
+
+16.select Cname,s.Snum,comm*100 "Rate of Comm" from Customers c,SalesPeople s where c.Snum=s.Snum and comm>.12;
+
+17.select Onum,Amt,Comm,Amt+(Amt*Comm) "Total Amount" from SalesPeople join Customers using(Snum) join Orders using(Snum) where Rating>100;
+
+18.select m.Sname,n.Sname,m.City from SalesPeople m,SalesPeople n where m.City=n.City and m.Sname<n.Sname;
+
+19.select Cname,city from Customers where Rating=(select Rating from Customers where Cname='Hoffman');
+
+20.select Onum "Orders",Cnum from Orders where Cnum=(select Cnum from Customers where Cname='Cisneros');
+
+21.select Cname,Rating from Customers where Cnum in (select Cnum from Orders where Amt>(select avg(Amt) from Orders));
+
+22.select Snum, sum(Amt) from Orders group by Snum having sum(Amt)>(select max(Amt) from Orders);
