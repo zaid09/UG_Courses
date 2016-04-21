@@ -1,0 +1,22 @@
+1.create table orders1(Onum int(4), Cnum int(4), Snum int(4),Odate date NOT NULL, PRIMARY KEY(Onum,Cnum,Snum));
+
+2.create table SalesPeople1(Snum int(4) PRIMARY KEY, Comm int(3) DEFAULT 10, Sname varchar(10) check(substr(upper(Sname),1,1) BETWEEN 'A' AND 'M'));
+
+3.create table Orders2(Onum int(4), Amt double(7,2), Odate date, Cnum int(4), Snum int(4), CONSTRAINT on_cn_sn check(Onum>Cnum AND Cnum>Snum));
+
+4.create table CityOrders select Onum,Amt,Snum,Cnum,City from Orders NATURAL JOIN Customers;
+alter table CityOrders ADD CONSTRAINT Onum_fk FOREIGN KEY(Onum) REFERENCES Orders(Onum);
+
+5.ALTER table CityOrders add prev int(4);
+alter table CityOrders add FOREIGN KEY(Cnum) REFERENCES Customer(Cnum);
+alter table Orders add FOREIGN KEY(prev) REFRENCES Orders(Onum);
+
+6.create view h_rated_cust as select *from Customers where Rating = (select max(Rating) from Customers);
+
+7.create view sp_city as select City, count(City) "No. of SalesPeople" from SalesPeople group by city;
+
+8.create view av_totalSal as select Sname, avg(Onum) Average, count(Onum) "Total Orders" from SalesPeople JOIN Orders using(Snum) group by Sname;
+
+9.create view multiC as select Sname, Cname from SalesPeople JOIN Customers using(Snum);
+
+10.create view Commission as select Snum, Comm from SalesPeople where Comm between .10 AND .20;
